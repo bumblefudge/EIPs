@@ -1,7 +1,7 @@
 ---
 namespace-identifier: eip155-caip25
 title: EIP155 Namespace, aka EVM Chains - JSON-RPC Provider Authorization
-author: Pedro Gomes (@pedrouid), Hassan Malik (@hmalik88), bumblefudge (@bumblefudge)
+author: Pedro Gomes (@pedrouid), Hassan Malik (@hmalik88), bumblefudge (@bumblefudge), Derek Rein (@arein), Kristof Gazso (@kristofgazso)
 discussions-to: 
 status: Draft
 type: Standard
@@ -31,20 +31,107 @@ see the [eip155/caip211.md](./caip211.md) profile for further guidance on using 
 
 ## Session Properties
 
-No namespace-wide or network-specific session properties have yet been proposed for standardization.
 When crafting such properties for contextual/in-network usage, it is recommended to align one's semantics and syntax (including case-sensitive style guides for property names!) with the [EIP-6963] wallet provider interface for common properties across architectures.
 
-<!--
+### Smart Contract Wallet Declaration
 
-## Examples
+When exposing to a caller an on-chain account that it controls, a wallet may wish to provide the [EIP-165]-encoded capabilities of that account, or even additional metadata needed to pre-form a transaction, e.g. an [EIP-4337] transaction to be passed by the `eth_sendUserOperation` function.
 
-TBD
+For these cases, it is recommended that wallets pass all this account context in the form of an `account` object in the `accounts` array of `sessionProperties`.
 
--->
+#### Example
+
+```
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "sessionId": "0xdeadbeef",
+    "sessionScopes": {
+      "eip155": {
+        "chains": ["eip155:1", "eip155:137"],
+        "methods": ["eth_sendTransaction", "eth_signTransaction", "get_balance", "eth_sign", "personal_sign"]
+        "notifications": ["accountsChanged", "chainChanged"],
+        "accounts": ["eip155:1:0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb", "eip155:137:0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb"]
+      },
+      "eip155:10": {
+        "methods": ["get_balance"],
+        "notifications": ["accountsChanged", "chainChanged"],
+        "accounts:" []
+      },
+      "eip155:42161": {
+        "methods": ["personal_sign"],
+        "notifications": ["accountsChanged", "chainChanged", "eth_sendUserOperation"],
+        "accounts":["eip155:42161:0x0910e12C68d02B561a34569E1367c9AAb42bd810"]
+      }
+      sessionProperties: {
+        "accounts": {
+            "eip155:42161:0x0910e12C68d02B561a34569E1367c9AAb42bd810": [
+                // list of eip165-encoded interfaces supported by onchain wallet
+                "eip165": {"0x1626ba7e", "0x1234ab"},
+                "userOpTemplate": {
+                    "executeAbi": {
+                        "inputs": [
+                            {
+                            "internalType": "address",
+                            "name": "dest",
+                            "type": "address"
+                            },
+                            {
+                            "internalType": "uint256",
+                            "name": "value",
+                            "type": "uint256"
+                            },
+                            {
+                            "internalType": "bytes",
+                            "name": "func",
+                            "type": "bytes"
+                            }
+                        ],
+                        "name": "execute",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                        },
+                        "executeBatchAbi": {
+                        "inputs": [
+                            {
+                            "internalType": "address[]",
+                            "name": "dest",
+                            "type": "address[]"
+                            },
+                            {
+                            "internalType": "uint256[]",
+                            "name": "value",
+                            "type": "uint256[]"
+                            },
+                            {
+                            "internalType": "bytes[]",
+                            "name": "func",
+                            "type": "bytes[]"
+                            }
+                        ],
+                        "name": "executeBatch",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                        },
+                        "dummySignature": "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+                    }
+                }
+            ]
+        }        
+      },
+      ...
+    }
+  }
+}
+```
 
 ## References
 
 - [EIP155][]: Ethereum Improvement Proposal specifying generation and validation of ChainIDs
+- [ERC165][]: Ethereum Request for Comment proposing a standard interface for declaring and querying interfaces of a smart contract by "magic values," a compact hash of the syntax declaration of each interface
 
 [execution API]: https://github.com/ethereum/execution-apis?tab=readme-ov-file#execution-api-specification
 [CAIP-2]: https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md
@@ -55,6 +142,7 @@ TBD
 [CAIP-217]: https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-217.md
 [EIP]: https://eips.ethereum.org/EIPS/eip-1
 [EIP155]: https://eips.ethereum.org/EIPS/eip-155
+[EIP165]: https://eips.ethereum.org/EIPS/eip-165
 
 ## Rights
 

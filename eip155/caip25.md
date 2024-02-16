@@ -35,7 +35,7 @@ When crafting such properties for contextual/in-network usage, it is recommended
 
 ### Smart Contract Wallet Declaration
 
-When exposing to a caller an on-chain account that it controls, a wallet may wish to provide the [EIP-165]-encoded capabilities of that account, or even additional metadata needed to pre-form a transaction, e.g. an [EIP-4337] transaction to be passed by the `eth_sendUserOperation` function.
+When exposing to a caller an on-chain account that it controls, a wallet may wish to provide the [EIP-165]-encoded capabilities of that account, or even additional metadata needed to pre-form a transaction, e.g. an [EIP-4337] transaction template to be passed by the signer's `eth_sendUserOperation` function to an entry point contract.
 
 For these cases, it is recommended that wallets pass all this account context in the form of an `account` object in the `accounts` array of `sessionProperties`.
 

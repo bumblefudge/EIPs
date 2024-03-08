@@ -85,54 +85,57 @@ Exposing such information can be considered a step towards fingerprinting the us
       sessionProperties: {
         "accounts": {
             "eip155:42161:0x0910e12C68d02B561a34569E1367c9AAb42bd810": [
+                "bundler": "https://api.pimlico.io/v1/arbitrum/rpc?apikey=1234",
                 "eip165": {"0xb61d27f6", "0x4efe356b"},
-                  "execute": {
-                    "inputs": [
-                      {
-                        "internalType": "address",
-                        "name": "dest",
-                        "type": "address"
-                      },
-                      {
-                        "internalType": "uint256",
-                        "name": "value",
-                        "type": "uint256"
-                      },
-                      {
-                        "internalType": "bytes",
-                        "name": "func",
-                        "type": "bytes"
-                      }
-                    ],
-                    "name": "execute",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                  },
-                  "executeBatch": {
-                    "inputs": [
-                      {
-                        "internalType": "address[]",
-                        "name": "dest",
-                        "type": "address[]"
-                      },
-                      {
-                        "internalType": "uint256[]",
-                        "name": "value",
-                        "type": "uint256[]"
-                      },
-                      {
-                        "internalType": "bytes[]",
-                        "name": "func",
-                        "type": "bytes[]"
-                      }
-                    ],
-                    "name": "executeBatch",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                  },
-                  "dummySignature": "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
+                "execute": {
+                  "inputs": [
+                    {
+                      "internalType": "address",
+                      "name": "dest",
+                      "type": "address"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "value",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "bytes",
+                      "name": "func",
+                      "type": "bytes"
+                    }
+                  ],
+                  "name": "execute",
+                  "outputs": [],
+                  "stateMutability": "nonpayable",
+                  "type": "function"
+                },
+                "executeBatch": {
+                  "inputs": [
+                    {
+                      "internalType": "address[]",
+                      "name": "dest",
+                      "type": "address[]"
+                    },
+                    {
+                      "internalType": "uint256[]",
+                      "name": "value",
+                      "type": "uint256[]"
+                    },
+                    {
+                      "internalType": "bytes[]",
+                      "name": "func",
+                      "type": "bytes[]"
+                    }
+                  ],
+                  "name": "executeBatch",
+                  "outputs": [],
+                  "stateMutability": "nonpayable",
+                  "type": "function"
+                },
+                "paymasters":{},
+                "openToPaymaster":true,
+                "dummySignature": "0xfffffffffffffffffffffffffffffff0000000000000000000000000000000007aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1c"
                   }
                 }
             ]
